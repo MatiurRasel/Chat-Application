@@ -1,0 +1,9 @@
+npm install ngx-toastr --save
+npm install @angular/animations --save
+ng g c members/member-list --skip-tests
+ng g c nav --dry-run
+ng g g _guards/auth --skip-tests
+npm install bootswatch
+ng g m _modules/shared --flat --dry-run
+ng g interceptor _interceptors/error --skip-tests
+ng g c errors/not-found

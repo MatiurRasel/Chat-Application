@@ -7,3 +7,5 @@ npm install bootswatch
 ng g m _modules/shared --flat --dry-run
 ng g interceptor _interceptors/error --skip-tests
 ng g c errors/not-found
+ng g s _services/members --skip-tests
+ng g c members/member-card --skip-tests

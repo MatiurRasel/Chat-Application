@@ -10,3 +10,7 @@ ng g c errors/not-found
 ng g s _services/members --skip-tests
 ng g c members/member-card --skip-tests
 ng g interceptor _interceptors/jwt --skip-tests --dry-run
+npm install @kolkov/ngx-gallery 
+npm install @kolkov/ngx-gallery --legacy-peer-deps
+ng g c members/member-edit --skip-tests
+ng g g _guards/prevent-unsaved-changes --skip-tests

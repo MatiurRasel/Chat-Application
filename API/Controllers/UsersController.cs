@@ -1,4 +1,5 @@
 
+using System.Security.Claims;
 using API.Data;
 using API.DTOS;
 using API.Entities;
@@ -34,6 +35,21 @@ namespace API.Controllers
         {
             return  await _user.GetMemberByUserNameAsync(userName);
             
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateUser(MemberUpdateDTO memberUpdateDTO)
+        {
+            var userName=  User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _user.GetUserByUserNameAsync(userName);
+
+            if(user == null) return NotFound();
+
+            _mapper.Map(memberUpdateDTO,user);
+
+            if(await _user.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Failed to update user");
         }
 
     }

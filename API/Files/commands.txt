@@ -3,3 +3,4 @@ dotnet ef migrations add ExtendedUserEntity
 dotnet ef database update
 https://json-generator.com/
 dotnet watch --no-hot-reload
+ng g c members/photo-editor --skip-tests

@@ -15,3 +15,4 @@ npm install @kolkov/ngx-gallery --legacy-peer-deps
 ng g c members/member-edit --skip-tests
 ng g g _guards/prevent-unsaved-changes --skip-tests
 npm install ngx-spinner --legacy-peer-deps
+npm install ng2-file-upload@next --legacy-peer-deps

@@ -22,7 +22,6 @@ import { ToastrService } from 'ngx-toastr';
 //   }
 // }
 
-
 export const authGuard: CanActivateFn = (route, state) => {
   const accountservice = inject(AccountService);
   const toastr = inject(ToastrService);

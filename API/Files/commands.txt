@@ -4,3 +4,5 @@ dotnet ef database update
 https://json-generator.com/
 dotnet watch --no-hot-reload
 ng g c members/photo-editor --skip-tests
+dotnet ef migrations add LikeEntityAdded
+Migration Problem => dotnet tool install --global dotnet-ef 

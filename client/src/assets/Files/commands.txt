@@ -18,3 +18,6 @@ npm install ngx-spinner --legacy-peer-deps
 npm install ng2-file-upload@next --legacy-peer-deps
 ng g c _forms/text-input --skip-tests
 ng g c _forms/date-picker --skip-tests
+npm install ngx-bootstrap --save --legacy-peer-deps
+npm install font-awesome  --legacy-peer-deps
+npm install ngx-timeago  --legacy-peer-deps

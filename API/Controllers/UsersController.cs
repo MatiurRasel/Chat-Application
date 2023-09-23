@@ -31,6 +31,14 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<PagedList<MemberDTO>>> GetUsers([FromQuery]UserParams userParams)
         {
+            var currentUser = await _user.GetUserByUserNameAsync(User.GetUserName());
+            userParams.CurrentUserName = currentUser.UserName;
+
+            if(string.IsNullOrEmpty(userParams.Gender))
+            {
+                userParams.Gender = currentUser.Gender == "male"?"female":"male";
+            }
+
             var users = await _user.GetMembersAsync(userParams);
             //var usersToReturn = _mapper.Map<IEnumerable<MemberDTO>>(users);
             Response.AddPaginationHeader(new PaginationHeader(users.CurrentPage,

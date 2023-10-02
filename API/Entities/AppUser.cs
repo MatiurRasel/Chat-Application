@@ -21,8 +21,8 @@ namespace API.Entities
         public string City {get;set;}
         public string Country {get;set;}
         public List<Photo> Photos {get;set;} = new();
-        public List<AppUser> LikedByUsers {get;set;} //many to one
-        public List<AppUser> LikedUsers {get;set;} //one to many
+        public List<UserLike> LikedByUsers {get;set;} //many to one
+        public List<UserLike> LikedUsers {get;set;} //one to many
     }
 
 }

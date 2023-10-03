@@ -1,3 +1,6 @@
+using API.DTOS;
+using API.Entities;
+using API.Extensions;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +21,39 @@ namespace API.Controllers
             
         }
 
-        //[HttpPost("")]
+        [HttpPost("{userName}")]
+        public async Task<ActionResult> AddLike(string userName)
+        {
+            var sourceUserId = int.Parse(User.GetUserId());
+            var likedUser = await _userRepository.GetUserByUserNameAsync(userName);
+            var sourceUser = await _likesRepository.GetUserWithLikes(sourceUserId);
+
+            if(likedUser == null) return NotFound();
+
+            if(sourceUser.UserName == userName) return BadRequest("You cannot like yourself");
+
+            var userLike = await _likesRepository.GetUserLike(sourceUserId,likedUser.Id);
+
+            if(userLike != null) return BadRequest("You already like this user");
+
+            userLike = new UserLike
+            {
+                SourceUserId = sourceUserId,
+                TargetUserId = likedUser.Id
+            };
+            
+            sourceUser.LikedUsers.Add(userLike);
+
+            if(await _userRepository.SaveAllAsync()) return Ok();
+
+            return BadRequest("Failed to like user");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<LikeDTO>>> GetUserLikes(string predicate)
+        {
+            var users = await _likesRepository.GetUserLikes(predicate,int.Parse(User.GetUserId()));
+            return Ok(users);
+        }
     }
 }

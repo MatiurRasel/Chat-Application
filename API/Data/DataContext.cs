@@ -40,7 +40,15 @@ namespace API.Data
             // .HasForeignKey(s=>s.TargetUserId)
             // .OnDelete(DeleteBehavior.NoAction);
 
-            
+            builder.Entity<Message>()
+            .HasOne(u=>u.Recipient)
+            .WithMany(m=>m.MessagesReceived)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Message>()
+            .HasOne(u=>u.Sender)
+            .WithMany(m=>m.MessagesSent)
+            .OnDelete(DeleteBehavior.Restrict);
 
 
 

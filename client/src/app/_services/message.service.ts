@@ -15,4 +15,8 @@ export class MessageService {
     let params = getPaginationHeaders(pageNumber,pageSize);
     return getPaginatedResult<Message[]>(this.baseUrl+'messages',params,this.http);
   }
+
+  getMessageThread(userName: string) {
+    return this.http.get<Message[]>(this.baseUrl+'messages/thread/'+userName);
+  }
 }

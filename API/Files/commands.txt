@@ -7,3 +7,9 @@ ng g c members/photo-editor --skip-tests
 dotnet ef migrations add LikeEntityAdded
 Migration Problem => dotnet tool install --global dotnet-ef 
 dotnet ef migrations add MessagesEntityAdded
+microsoft.aspnetcore.identity.entityframeworkcore
+
+dotnet ef migrations add IdentityAdded
+dotnet ef database drop
+
+aA0202

@@ -36,15 +36,34 @@ namespace API.Implementations
 
         public async Task<PagedList<MessageDTO>> GetMessagesForUser(MessageParams messageParams)
         {
+            var userName = messageParams.UserName;
+
             var query = _context.Messages
             .OrderByDescending(x => x.MessageSent)
             .AsQueryable();
 
+            //if (messageParams.Container == "Inbox")
+            //{
+            //    query.Where(u => u.RecipientUserName == userName);
+            //}
+            //else if (messageParams.Container == "Outbox")
+            //{
+            //    query.Where(u => u.SenderUserName == userName);
+            //}
+            //else
+            //{
+            //    query.Where(u => u.RecipientUserName == userName
+            //    && u.DateRead == null);
+            //}
+
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u=>u.RecipientUserName == messageParams.UserName),
-                "Outbox" => query.Where(u=>u.SenderUserName == messageParams.UserName),
-                _ => query.Where(u=>u.RecipientUserName == messageParams.UserName 
+                "Inbox" => query.Where(u => u.RecipientUserName == userName 
+                && u.RecipientDeleted == false),
+                "Outbox" => query.Where(u => u.SenderUserName == userName
+                && u.SenderDeleted == false),
+                _ => query.Where(u => u.RecipientUserName == userName
+                && u.RecipientDeleted == false
                 && u.DateRead == null)
             };
 
@@ -61,11 +80,13 @@ namespace API.Implementations
             .Include(u=>u.Recipient).ThenInclude(u=>u.Photos)
             .Where(
                 m=>m.RecipientUserName == currentUserName &&
+                m.RecipientDeleted == false &&
                 m.SenderUserName == recipientUserName || 
                 m.RecipientUserName == recipientUserName &&
+                m.SenderDeleted == false &&
                 m.SenderUserName == currentUserName
             )
-            .OrderByDescending(m=>m.MessageSent)
+            .OrderBy(m=>m.MessageSent)
             .ToListAsync();
 
             var unreadMessages = messages.Where(m=>m.DateRead == null

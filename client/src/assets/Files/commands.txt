@@ -16,6 +16,12 @@ ng g c members/member-messages --skip-tests
 ng g r _resolvers/member-detailed --skip-tests
 ng g c admin/admin-panel --skip-tests
 ng g guard _guards/admin --skip-tests
+ng g d _directives/has-role --skip-tests
+ng g c admin/user-management --skip-tests
+ng g c admin/photo-management --skip-tests
+ng g s _services/admin --skip-tests
+ng g c modals/roles-modal --skip-tests
+
 
 npm install bootswatch
 npm install ngx-toastr --save

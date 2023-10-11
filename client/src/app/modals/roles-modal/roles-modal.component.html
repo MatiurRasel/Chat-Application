@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title pul-left">{{title}}</h4>
+    <h4 class="modal-title pul-left">Edit Roles for {{userName}}</h4>
     <button type="button" class="btn-close close pull-right"
     area-label="Close" (click)="bsModalRef.hide()">
         <span area-hidden="true" class="visually-hidden">&times;</span>
@@ -7,12 +7,21 @@
 </div>
 
 <div class="modal-body">
-    <ul *ngIf="list.length">
-        <li *ngFor="let item of list">{{item}}</li>
-    </ul>
+   <form #rolesForm="ngForm" id="rolesForm">
+        <div class="form-check" *ngFor="let role of availableRoles">
+            <input type="checkbox"
+                class="form-check-input"
+                [checked]="selectedRoles.includes(role)"
+                value="role"
+                (change)="updateChecked(role)"
+                [disabled]="role === 'Admin' && userName ==='admin'"
+            >
+            <label>{{role}}</label>
+        </div>
+   </form>
 </div>
 
 <div class="modal-footer">
     <button type="button" class="btn btn-default" 
-    (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+    (click)="bsModalRef.hide()">Submit</button>
 </div>

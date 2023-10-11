@@ -12,7 +12,9 @@ import { RolesModalComponent } from 'src/app/modals/roles-modal/roles-modal.comp
 export class UserManagementComponent implements OnInit {
   users: User[]=[];
   bsModalRef: BsModalRef<RolesModalComponent> =  new BsModalRef<RolesModalComponent>();
-
+  availableRoles = [
+    'Admin','Moderator','Member'
+  ]
   constructor(private adminService:AdminService,
     private modalService:BsModalService) {}
   ngOnInit(): void {
@@ -25,17 +27,22 @@ export class UserManagementComponent implements OnInit {
     })
   }
 
-  openRolesModal() {
-    const initialState: ModalOptions = {
+  openRolesModal(user: User) {
+    const config = {
+      class:'modal-dialog-centered',
       initialState: {
-        list: [
+        userName:user.userName,
+        availableRoles:this.availableRoles,
+        selectedRoles:[
+          ...user.roles
+        ]
 
-        ],
-        title:''
       }
-    } 
-    this.bsModalRef = this.modalService.show(RolesModalComponent,initialState);
-    this.bsModalRef.content!.closeBtnName = 'Close';
+    }
+    this.bsModalRef = this.modalService.show(RolesModalComponent,config);
+    this.bsModalRef.onHide?.subscribe({
+
+    })
   }
 
 }

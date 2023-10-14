@@ -13,3 +13,6 @@ dotnet ef migrations add IdentityAdded
 dotnet ef database drop
 
 aA0202
+
+
+dotnet ef migrations add GroupsAdded

@@ -21,7 +21,7 @@ ng g c admin/user-management --skip-tests
 ng g c admin/photo-management --skip-tests
 ng g s _services/admin --skip-tests
 ng g c modals/roles-modal --skip-tests
-
+ng g s _services/presence --skip-tests
 
 npm install bootswatch
 npm install ngx-toastr --save
@@ -33,5 +33,5 @@ npm install ng2-file-upload@next --legacy-peer-deps
 npm install ngx-bootstrap --save --legacy-peer-deps
 npm install font-awesome  --legacy-peer-deps
 npm install ngx-timeago  --legacy-peer-deps
-
+npm install @microsoft/signalr  --legacy-peer-deps
 --npm install -g npm@10.1.0

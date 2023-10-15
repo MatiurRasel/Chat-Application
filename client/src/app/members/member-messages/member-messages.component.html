@@ -16,7 +16,7 @@
                         <div class="header">
                             <small class="text-muted">
                                 <span class="fa fa-clock-o">
-                                    {{message.messageSent + 'Z' | timeago }}
+                                    {{message.messageSent | timeago }}
                                 </span>
                                 <span class="text-danger" 
                                     *ngIf="!message.dateRead 
@@ -25,7 +25,7 @@
                                     *ngIf="message.dateRead 
                                     && message.senderUserName !== userName">
                                     (read 
-                                    {{message.dateRead + 'Z' | timeago }}
+                                    {{message.dateRead | timeago }}
                                     )</span>
                             </small>
                         </div>

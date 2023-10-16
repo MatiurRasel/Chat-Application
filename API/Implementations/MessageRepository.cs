@@ -67,21 +67,7 @@ namespace API.Implementations
             var query = _context.Messages
             .OrderByDescending(x => x.MessageSent)
             .AsQueryable();
-
-            //if (messageParams.Container == "Inbox")
-            //{
-            //    query.Where(u => u.RecipientUserName == userName);
-            //}
-            //else if (messageParams.Container == "Outbox")
-            //{
-            //    query.Where(u => u.SenderUserName == userName);
-            //}
-            //else
-            //{
-            //    query.Where(u => u.RecipientUserName == userName
-            //    && u.DateRead == null);
-            //}
-
+            
             query = messageParams.Container switch
             {
                 "Inbox" => query.Where(u => u.RecipientUserName == userName 
@@ -101,9 +87,7 @@ namespace API.Implementations
 
         public async Task<IEnumerable<MessageDTO>> GetMessageThread(string currentUserName,string recipientUserName)
         {
-           var messages  = await _context.Messages
-            .Include(u=>u.Sender).ThenInclude(u=>u.Photos)
-            .Include(u=>u.Recipient).ThenInclude(u=>u.Photos)
+           var query  =  _context.Messages
             .Where(
                 m=>m.RecipientUserName == currentUserName &&
                 m.RecipientDeleted == false &&
@@ -113,9 +97,9 @@ namespace API.Implementations
                 m.SenderUserName == currentUserName
             )
             .OrderBy(m=>m.MessageSent)
-            .ToListAsync();
+            .AsQueryable();
 
-            var unreadMessages = messages.Where(m=>m.DateRead == null
+            var unreadMessages = query.Where(m=>m.DateRead == null
                 && m.RecipientUserName == currentUserName).ToList();
 
             if(unreadMessages.Any())
@@ -124,11 +108,9 @@ namespace API.Implementations
                 {
                     message.DateRead = DateTime.UtcNow;
                 }
-
-                await _context.SaveChangesAsync();
             }    
 
-            return _mapper.Map<IEnumerable<MessageDTO>>(messages);
+            return await query.ProjectTo<MessageDTO>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public void RemoveConnection(Connection connection)
@@ -136,9 +118,5 @@ namespace API.Implementations
             _context.Connections.Remove(connection);
         }
 
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0 ;
-        }
     }
 }

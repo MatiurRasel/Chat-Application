@@ -81,8 +81,6 @@ export class MessageService {
   }
 
   async sendMessage(userName: string, content: string) {
-    // return this.http.post<Message>(this.baseUrl + 'messages', 
-    // {recipientUserName: userName,content});
     return this.hubConnection?.invoke('SendMessage',
     {recipientUserName: userName,content})
     .catch(error => console.log(error)); 

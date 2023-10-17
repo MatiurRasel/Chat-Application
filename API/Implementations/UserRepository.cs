@@ -22,6 +22,17 @@ namespace API.Implementations
             _mapper = mapper;
         }
 
+        public async Task<MemberDTO> GetMemberAsync(string userName, bool isCurrentUser)
+        {
+            var query = _context.Users
+                .Where(x => x.UserName == userName)
+                .ProjectTo<MemberDTO>(_mapper.ConfigurationProvider)
+                .AsQueryable();
+
+                if (isCurrentUser) query = query.IgnoreQueryFilters(); 
+                return await query.FirstOrDefaultAsync();
+        }
+
         public async Task<MemberDTO> GetMemberByIdAsync(int id)
         {
             return await _context.Users
@@ -66,6 +77,15 @@ namespace API.Implementations
             return await _context.Users
             .Include(p=>p.Photos)
             .FirstOrDefaultAsync(x=>x.Id ==id);
+        }
+
+        public async Task<AppUser> GetUserByPhotoId(int photoId)
+        {
+            return await _context.Users
+                .Include(p => p.Photos)
+                .IgnoreQueryFilters()
+                .Where(p => p.Photos.Any(p => p.Id == photoId))
+                .FirstOrDefaultAsync();
         }
 
         public async Task<AppUser> GetUserByUserNameAsync(string userName)

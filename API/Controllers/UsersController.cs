@@ -49,8 +49,9 @@ namespace API.Controllers
         [HttpGet("{userName}")]
         public async Task<ActionResult<MemberDTO>> GetUser(string userName)
         {
-            return await _uow.UserRepository.GetMemberByUserNameAsync(userName);
-            
+            var currentUserName = User.GetUserName();
+            return await _uow.UserRepository.GetMemberAsync(userName,
+            isCurrentUser: currentUserName == userName);
         }
 
         [HttpPut]
@@ -83,8 +84,6 @@ namespace API.Controllers
                 Url = result.SecureUrl.AbsoluteUri,
                 PublicId = result.PublicId
             };
-
-            if (user.Photos.Count == 0) photo.IsMain = true;
 
             user.Photos.Add(photo);
 
@@ -120,7 +119,7 @@ namespace API.Controllers
         {
             var user = await _uow.UserRepository.GetUserByUserNameAsync(User.GetUserName());
             if (user == null) return NotFound();
-            var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
+            var photo = await _uow.PhotoRepository.GetPhotoById(photoId);
             if (photo == null) return NotFound();
             if (photo.IsMain) return BadRequest("you can't delete your main photo");
             if (photo.PublicId != null)

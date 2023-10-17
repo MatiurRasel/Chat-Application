@@ -35,14 +35,10 @@ namespace API.Data
 
             foreach(var user in users)
             {
-                //using var hmac = new HMACSHA512();
+                user.Photos.First().IsApproved = true;
                 user.UserName = user.UserName.ToLower();
-                // user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd"));
-
-                // user.PasswordSalt = hmac.Key;
-
-                 await userManager.CreateAsync(user,"Pa$$w0rd");
-                 await userManager.AddToRoleAsync(user,"Member");
+                await userManager.CreateAsync(user,"Pa$$w0rd");
+                await userManager.AddToRoleAsync(user,"Member");
             }
 
             var admin =  new AppUser

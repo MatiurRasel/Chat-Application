@@ -15,7 +15,6 @@ export class AccountService {
   baseUrl = environment.apiUrl;
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
-  // currentUser$: Observable<User | null> = of(null)
 
   constructor(private http: HttpClient,private presenceService: PresenceService) { }
 
@@ -36,7 +35,6 @@ export class AccountService {
         if(user){
           this.setCurrentUser(user);
         }
-        //return user;
       })
     )
 

@@ -83,18 +83,6 @@ namespace API.Controllers
 
             if(!result) return Unauthorized("Invalid Password.");
 
-            //using var hmac = new HMACSHA512(user.PasswordSalt);
-
-            //var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
-
-            // for (int i = 0; i < computedHash.Length; i++)
-            // {
-            //     if (computedHash[i] != user.PasswordHash[i])
-            //     {
-            //         return Unauthorized("Invalid Password.");
-            //     }
-            // }
-
             return new UserDTO
             {
                 UserName = user.UserName,

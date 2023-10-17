@@ -16,3 +16,6 @@ aA0202
 
 
 dotnet ef migrations add GroupsAdded
+
+dotnet ef database drop
+dotnet ef migrations add PhotoApprovalAdded

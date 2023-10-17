@@ -16,7 +16,7 @@ namespace API.Extensions
 
             services.AddDbContext<DataContext>(opt => 
             {
-                opt.UseSqlite(config.GetConnectionString("SqLiteConnection"));
+                opt.UseNpgsql(config.GetConnectionString("PostgreSqlConnection"));
             });
 
             services.AddCors();

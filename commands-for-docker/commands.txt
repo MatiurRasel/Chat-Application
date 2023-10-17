@@ -1,0 +1,14 @@
+
+wsl --update
+ wsl --shutdown
+ wsl -l -v
+ wsl.exe --install Ubuntu-22.04
+docker run --name postgres -e POSTGRES_PASSWORD=postgrespw -p 5432:5432 -d postgres:latest
+
+---// 
+PostgreSQL
+v1.4.3
+Chris Kolkman
+
+Npgsql.EntityFrameworkCore.PostgreSQL by Shay Rojansky,Austin Drenski,Yoh Deadfall>
+dotnet ef migrations add PostgresInitial -o Data/Migrations

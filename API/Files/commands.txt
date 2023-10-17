@@ -19,3 +19,5 @@ dotnet ef migrations add GroupsAdded
 
 dotnet ef database drop
 dotnet ef migrations add PhotoApprovalAdded
+
+dotnet run

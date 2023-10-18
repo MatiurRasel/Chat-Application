@@ -1,0 +1,58 @@
+
+wsl --update
+ wsl --shutdown
+ wsl -l -v
+ wsl.exe --install Ubuntu-22.04
+docker run --name postgres -e POSTGRES_PASSWORD=postgrespsw -p 5432:5432 -d postgres:latest
+
+---// 
+PostgreSQL
+v1.4.3
+Chris Kolkman
+
+Npgsql.EntityFrameworkCore.PostgreSQL by Shay Rojansky,Austin Drenski,Yoh Deadfall>
+dotnet ef migrations add PostgresInitial -o Data/Migrations
+
+Docker
+v1.27.0
+Microsoft
+microsoft.com
+
+
+docker build -t matiurrasel1002/chatapplication .
+docker run --rm -it -p 8080:80 matiurrasel1002/chatapplication:latest
+docker push matiurrasel1002/chatapplication:latest
+docker login
+
+Heroku
+
+Fly.io
+install => iwr https://fly.io/install.ps1 -useb | iex
+Sign UP => fly auth signup
+login => fly auth login
+On Root => fly launch --image matiurrasel1002/chatapplication:latest
+
+--While Hosting with Fly.io
+-- Provisioning 1 of 1 machines with image flyio/postgres-flex:15.3@sha256:5e5fc53decb051f69b0850f0f5d137c92343fcd1131ec413015e5260620947ac
+
+Postgres cluster chat-application-db created
+  Username:    postgres
+  Password:    dIKVnbOImUB9EDb
+  Hostname:    chat-application-db.internal
+  Flycast:     fdaa:3:5215:0:1::2
+  Proxy port:  5432
+  Postgres port:  5433
+  Connection string: postgres://postgres:dIKVnbOImUB9EDb@chat-application-db.flycast:5432
+
+  DATABASE_URL=postgres://chat_application:TXqYFEaxPOmI8Fr@chat-application-db.flycast:5432/chat_application?sslmode=disable
+
+  fly secrets list
+
+  fly secrets set CloudinarySettings__ApiSecret=ySkUzwtBNaorSiPna3kR9G5C-zM
+
+ fly secrets set TokenKey=X3ZHYYRehaPCtj5HMwsS45ssnqabT3BZ
+
+  https://delinea.com/resources/password-generator-it-tool
+
+
+  fly deploy

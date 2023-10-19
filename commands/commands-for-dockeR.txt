@@ -58,3 +58,6 @@ Postgres cluster chat-application-db created
   fly deploy
 
   fly auth token
+
+  -HEROKU 
+  https://devcenter.heroku.com/articles/heroku-cli

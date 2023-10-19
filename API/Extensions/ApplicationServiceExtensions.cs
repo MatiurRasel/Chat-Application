@@ -13,14 +13,7 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services
             ,IConfiguration config)
         {
-
-            services.AddDbContext<DataContext>(opt => 
-            {
-                opt.UseSqlite(config.GetConnectionString("SqLiteConnection"));
-            });
-
             services.AddCors();
-
             services.AddScoped<ITokenService, TokenService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
@@ -30,6 +23,7 @@ namespace API.Extensions
             services.AddSingleton<PresenceTracker>();
             services.AddScoped<IUnitOfWork,UnitOfWork>();
             return services;
+            
         }
     }
 }

@@ -23,6 +23,7 @@ namespace API.Extensions
             services.AddSingleton<PresenceTracker>();
             services.AddScoped<IUnitOfWork,UnitOfWork>();
             return services;
+            
         }
     }
 }

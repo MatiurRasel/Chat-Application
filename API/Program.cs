@@ -19,28 +19,28 @@ builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
 var connString = "";
-if (builder.Environment.IsDevelopment()) 
+if (builder.Environment.IsDevelopment())
     connString = builder.Configuration.GetConnectionString("DefaultConnection");
-else 
+else
 {
-// Use connection string provided at runtime by FlyIO.
-        var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-        // Parse connection URL to connection string for Npgsql
-        connUrl = connUrl.Replace("postgres://", string.Empty);
-        var pgUserPass = connUrl.Split("@")[0];
-        var pgHostPortDb = connUrl.Split("@")[1];
-        var pgHostPort = pgHostPortDb.Split("/")[0];
-        var pgDb = pgHostPortDb.Split("/")[1];
-        var pgUser = pgUserPass.Split(":")[0];
-        var pgPass = pgUserPass.Split(":")[1];
-        var pgHost = pgHostPort.Split(":")[0];
-        var pgPort = pgHostPort.Split(":")[1];
+    // Use connection string provided at runtime by FlyIO.
+    // var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+    // // Parse connection URL to connection string for Npgsql
+    // connUrl = connUrl.Replace("postgres://", string.Empty);
+    // var pgUserPass = connUrl.Split("@")[0];
+    // var pgHostPortDb = connUrl.Split("@")[1];
+    // var pgHostPort = pgHostPortDb.Split("/")[0];
+    // var pgDb = pgHostPortDb.Split("/")[1];
+    // var pgUser = pgUserPass.Split(":")[0];
+    // var pgPass = pgUserPass.Split(":")[1];
+    // var pgHost = pgHostPort.Split(":")[0];
+    // var pgPort = pgHostPort.Split(":")[1];
 
-        connString = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
+    // connString = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb};";
 }
 builder.Services.AddDbContext<DataContext>(opt =>
 {
-    opt.UseNpgsql(connString);
+    opt.UseSqlServer(connString);
 });
 
 var app = builder.Build();
@@ -63,23 +63,23 @@ app.UseStaticFiles();
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");
-app.MapFallbackToController("Index","Fallback");
+app.MapFallbackToController("Index", "Fallback");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
-try 
+try
 {
-    var context =  services.GetRequiredService<DataContext>();
+    var context = services.GetRequiredService<DataContext>();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
     await Seed.ClearConnections(context);
-    await Seed.SeedUsers(userManager,roleManager);
+    await Seed.SeedUsers(userManager, roleManager);
 }
 catch (Exception ex)
 {
     var logger = services.GetService<ILogger<Program>>();
-    logger.LogError(ex,"An Error occurred during migration");
+    logger.LogError(ex, "An Error occurred during migration");
 
 }
 

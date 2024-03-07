@@ -1,33 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.css']
 })
-export class ConfirmDialogComponent implements OnInit{
-  
-  title = '';
-  message = '';
-  btnOkText = '';
-  btnCancelText = '';
-  result = false;
-
-  constructor(public bsModalRef : BsModalRef) {}
-
-  ngOnInit(): void {
-   
-  }
+export class ConfirmDialogComponent {
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData
+  ) {}
 
   confirm() {
-    this.result = true;
-    this.bsModalRef.hide();
+    this.dialogRef.close(true);
   }
 
   decline() {
-    this.bsModalRef.hide();
+    this.dialogRef.close(false);
   }
+}
 
-
+export interface ConfirmDialogData {
+  title: string;
+  message: string;
+  btnOkText: string;
+  btnCancelText: string;
 }

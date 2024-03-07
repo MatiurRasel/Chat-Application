@@ -1,24 +1,18 @@
-<div class="mb-3">
-    <input type={{type}}
-    [class.is-invalid]="control.touched && control.invalid"
-    class="form-control"
-    [formControl]="control"
-    placeholder= {{label}}>
-
-    <div class="invalid-feedback" 
-    *ngIf="control.errors?.['required']">
-        Please enter a {{label}}
-    </div>
-    <div class="invalid-feedback" 
-    *ngIf="control.errors?.['minlength']">
-        {{label}} must be at least {{control.errors?.['minlength'].requiredLength}} characters
-    </div>
-    <div class="invalid-feedback" 
-    *ngIf="control.errors?.['maxlength']">
-        {{label}} must be at least {{control.errors?.['maxlength'].requiredLength}} characters
-    </div>
-    <div class="invalid-feedback" 
-    *ngIf="control.errors?.['notMatching']">
-        passwords do not match
-    </div>
-</div>
+<mat-form-field appearance="fill" class="mb-3">
+    <input matInput [type]="type" [formControl]="control" placeholder="{{ label }}">
+    <mat-error *ngIf="control.touched && control.invalid">
+      <ng-container *ngIf="control.errors?.['required']">
+        Please enter a {{ label }}
+      </ng-container>
+      <ng-container *ngIf="control.errors?.['minlength']">
+        {{ label }} must be at least {{ control.errors?.['minlength'].requiredLength }} characters
+      </ng-container>
+      <ng-container *ngIf="control.errors?.['maxlength']">
+        {{ label }} must be at most {{ control.errors?.['maxlength'].requiredLength }} characters
+      </ng-container>
+      <ng-container *ngIf="control.errors?.['notMatching']">
+        Passwords do not match
+      </ng-container>
+    </mat-error>
+  </mat-form-field>
+  

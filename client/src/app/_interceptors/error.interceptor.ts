@@ -8,12 +8,12 @@ import {
 } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { NavigationExtras, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar directly
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private router : Router,private toastr: ToastrService) {}
+  constructor(private router : Router,private snackBar: MatSnackBar) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler)
   : Observable<HttpEvent<unknown>> {
@@ -32,11 +32,11 @@ export class ErrorInterceptor implements HttpInterceptor {
                 throw modalStateErrors.flat();
               }
               else {
-                this.toastr.error(error.error,error.status.toString())
+                this.snackBar.open(error.error,error.status.toString())
               }
               break;
             case 401:
-              this.toastr.error('Unauthorized',error.status.toString());
+              this.snackBar.open('Unauthorized',error.status.toString());
               break;
             case 404:
               this.router.navigateByUrl('/not-found');
@@ -46,7 +46,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               this.router.navigateByUrl('/server-error',navigationExtras);
               break;
             default:
-              this.toastr.error('Something unexpected went wrong');
+              this.snackBar.open('Something unexpected went wrong', 'Error');
               console.log(error);
               break;
 

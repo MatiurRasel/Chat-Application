@@ -10,6 +10,8 @@
 @import "flatpickr/dist/flatpickr.min.css";
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 /* #cta {
   background-image: url("../images/bg-boost-desktop.svg");
   background-repeat: no-repeat;
@@ -69,3 +71,6 @@
 .open .hamburger-bottom {
   transform: rotate(-45deg) translateY(6px) translateX(-6px);
 } */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

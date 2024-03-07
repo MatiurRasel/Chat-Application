@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { User } from 'src/app/_models/user';
@@ -26,7 +26,7 @@ export class MemberEditComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private memberService: MembersService,
-    private toastr: ToastrService
+    private snackBar: MatSnackBar
   ) {
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next:user => this.user = user
@@ -47,11 +47,16 @@ export class MemberEditComponent implements OnInit {
     debugger
     this.memberService.updateMember(this.editForm?.value).subscribe({
       next: () => {
-        this.toastr.success('Profile updated successfully.');
+        this.snackBar.open('Profile updated successfully.', 'Close'
+        // , {
+        //   duration: 3000,
+        //   horizontalPosition: 'center',
+        //   verticalPosition: 'bottom',
+        // }
+        );
         this.editForm?.reset(this.member);
       }
     })
 
   }
-
 }

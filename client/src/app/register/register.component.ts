@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AccountService } from '../_services/account.service';
-import { ToastrService } from 'ngx-toastr';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidatorFn, AbstractControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar'; // Import MatSnackBar
 
 @Component({
   selector: 'app-register',
@@ -11,73 +11,90 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   // @Input() usersFromHomeComponent: any;
-  @Output() cancelRegister =  new EventEmitter();
+  @Output() cancelRegister = new EventEmitter();
   registerForm: FormGroup = new FormGroup({});
   maxDate: Date = new Date();
   validationErrors: string[] | undefined;
 
-  constructor(private accountService: AccountService,
-    private toastr: ToastrService,
+  constructor(
+    private accountService: AccountService,
     private fb: FormBuilder,
-    private router: Router){
+    private router: Router,
+    private snackBar: MatSnackBar // Inject MatSnackBar
+  ) {}
 
-    }
-    
   ngOnInit(): void {
     this.initializeForm();
-    this.maxDate.setFullYear(this.maxDate.getFullYear() -18);
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
   }
 
   initializeForm() {
     this.registerForm = this.fb.group({
-      userName: ['',Validators.required],
+      userName: ['', Validators.required],
       gender: ['male'],
-      knownAs: ['',Validators.required],
-      dateOfBirth: ['',Validators.required],
-      city: ['',Validators.required],
-      country: ['',Validators.required],
-      password: ['',[Validators.required,
-        Validators.minLength(4),Validators.maxLength(8)]],
-      confirmPassword: ['',[Validators.required
-        ,this.matchValues('password')]]
-    })
+      knownAs: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      city: ['', Validators.required],
+      country: ['', Validators.required],
+      password: [
+        '',
+        [Validators.required, Validators.minLength(4), Validators.maxLength(8)]
+      ],
+      confirmPassword: [
+        '',
+        [Validators.required, this.matchValues('password')]
+      ]
+    });
     this.registerForm.controls['password'].valueChanges.subscribe({
-      next: () => this.registerForm.controls['confirmPassword'].updateValueAndValidity()
-    })
+      next: () =>
+        this.registerForm.controls['confirmPassword'].updateValueAndValidity()
+    });
   }
 
-  matchValues(matchTo: string):ValidatorFn{
-    return(control:AbstractControl) => {
+  matchValues(matchTo: string): ValidatorFn {
+    return (control: AbstractControl) => {
       return control.value === control.parent?.get(matchTo)?.value
-      ? null : {notMatching: true}
-    }
+        ? null
+        : { notMatching: true };
+    };
   }
 
-  register(){
-    const dob = this.getDateOnly(this.registerForm.controls['dateOfBirth'].value);
-    const values = {...this.registerForm.value,dateOfBirth: dob};
+  register() {
+    const dob = this.getDateOnly(
+      this.registerForm.controls['dateOfBirth'].value
+    );
+    const values = { ...this.registerForm.value, dateOfBirth: dob };
 
     this.accountService.register(values).subscribe({
       next: () => {
-        this.router.navigateByUrl('/members')
+        this.router.navigateByUrl('/members');
+        this.openSnackBar('Registration successful');
       },
-      error: error=> {
-        this.validationErrors  = error
+      error: (error) => {
+        this.validationErrors = error;
+        this.openSnackBar('Registration failed. Please try again.');
       }
-    })
+    });
   }
-  cancel(){
-    this.cancelRegister.emit(false);
 
+  cancel() {
+    this.cancelRegister.emit(false);
   }
 
   private getDateOnly(dob: string | undefined) {
-    if(!dob) return;
+    if (!dob) return;
     let theDob = new Date(dob);
-    return new Date(theDob.setMinutes(
-      theDob.getMinutes()-theDob.getTimezoneOffset()
-      )).toISOString().slice(0,10);
-
+    return new Date(
+      theDob.setMinutes(theDob.getMinutes() - theDob.getTimezoneOffset())
+    ).toISOString().slice(0, 10);
   }
 
+  // New method to open Angular Material SnackBar
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom'
+    });
+  }
 }

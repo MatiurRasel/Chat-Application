@@ -31,6 +31,8 @@ import { UserManagementComponent } from './admin/user-management/user-management
 import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { LiveTimePipe } from './_pipes/live-time.pipe';
 
 
 @NgModule({
@@ -57,7 +59,8 @@ import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.c
     UserManagementComponent,
     PhotoManagementComponent,
     RolesModalComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    LiveTimePipe
   ],
   imports: [
     BrowserModule,
@@ -71,7 +74,8 @@ import { ConfirmDialogComponent } from './modals/confirm-dialog/confirm-dialog.c
   providers: [
     {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptor,multi:true},
     {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptor,multi:true},
-    {provide:HTTP_INTERCEPTORS,useClass:LoadingInterceptor,multi:true}
+    {provide:HTTP_INTERCEPTORS,useClass:LoadingInterceptor,multi:true},
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })

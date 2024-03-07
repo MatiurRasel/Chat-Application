@@ -1,27 +1,41 @@
-<div class="modal-header">
-    <h4 class="modal-title pul-left">Edit Roles for {{userName}}</h4>
-    <button type="button" class="btn-close close pull-right"
-    area-label="Close" (click)="bsModalRef.hide()">
-        <span area-hidden="true" class="visually-hidden">&times;</span>
+<div class="modal-header flex items-center justify-between p-4 bg-blue-500 text-white">
+    <h4 class="text-lg md:text-xl lg:text-2xl">Edit Roles for {{ userName }}</h4>
+    <button
+      type="button"
+      class="btn-close close text-white"
+      aria-label="Close"
+      (click)="dialogRef.close()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
-</div>
-
-<div class="modal-body">
-   <form #rolesForm="ngForm" id="rolesForm">
-        <div class="form-check" *ngFor="let role of availableRoles">
-            <input type="checkbox"
-                class="form-check-input"
-                [checked]="selectedRoles.includes(role)"
-                value="role"
-                (change)="updateChecked(role)"
-                [disabled]="role === 'Admin' && userName ==='admin'"
-            >
-            <label>{{role}}</label>
+  </div>
+  
+  <div class="modal-body p-4">
+    <form>
+      <div class="space-y-2">
+        <div
+          class="flex items-center space-x-2"
+          *ngFor="let role of availableRoles"
+        >
+          <mat-checkbox
+            class="form-check-input text-blue-500"
+            [checked]="selectedRoles.includes(role)"
+            (change)="updateChecked(role)"
+          >
+            {{ role }}
+          </mat-checkbox>
         </div>
-   </form>
-</div>
-
-<div class="modal-footer">
-    <button type="button" class="btn btn-default" 
-    (click)="bsModalRef.hide()">Submit</button>
-</div>
+      </div>
+    </form>
+  </div>
+  
+  <div class="modal-footer flex justify-end p-4">
+    <button
+      type="button"
+      class="btn btn-default px-4 py-2 bg-blue-500 text-white hover:bg-blue-600"
+      (click)="submit()"
+    >
+      Submit
+    </button>
+  </div>
+  

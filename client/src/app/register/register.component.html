@@ -1,37 +1,34 @@
-<form [formGroup]="registerForm" (ngSubmit)=" registerForm.valid && register()" autocomplete="off">
-    <h2 class="text-center text-primary">Sign up</h2>
+<form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && register()" autocomplete="off" class="max-w-md mx-auto mt-8">
+    <h2 class="text-center text-primary mb-4">Sign up</h2>
     <hr>
-
-    <div class="mb-3">
-        <label style="margin-right: 10px;">I am a: </label>
-        <label class="form-check-label">
-            <input type="radio" class="form-check-input ms-1" value="male" formControlName="gender"> Male
-            <input type="radio" class="form-check-input ms-3" value="female" formControlName="gender"> Female
-        </label>
+  
+    <div class="mb-4">
+      <label class="inline-block mr-4">I am a: </label>
+      <label class="inline-block">
+        <mat-radio-group formControlName="gender">
+          <mat-radio-button class="ms-1" value="male">Male</mat-radio-button>
+          <mat-radio-button class="ms-3" value="female">Female</mat-radio-button>
+        </mat-radio-group>
+      </label>
     </div>
+  
     <app-text-input [formControl]="$any(registerForm.controls['userName'])" [label]="'User Name'"></app-text-input>
     <app-text-input [formControl]="$any(registerForm.controls['knownAs'])" [label]="'Known As'"></app-text-input>
-    <app-date-picker [formControl]="$any(registerForm.controls['dateOfBirth'])" 
-    [label]="'Date of Birth'" [maxDate]="maxDate"></app-date-picker>
+    <app-date-picker [formControl]="$any(registerForm.controls['dateOfBirth'])" [label]="'Date of Birth'" [maxDate]="maxDate"></app-date-picker>
     <app-text-input [formControl]="$any(registerForm.controls['city'])" [label]="'City'"></app-text-input>
     <app-text-input [formControl]="$any(registerForm.controls['country'])" [label]="'Country'"></app-text-input>
     <app-text-input [formControl]="$any(registerForm.controls['password'])" [label]="'Password'" [type]="'password'"></app-text-input>
-    <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])" [label]="'Confirm Password'"  [type]="'password'"></app-text-input>
-
-
-    <div class="row" *ngIf="validationErrors">
-        <ul class="text-danger">
-            <li *ngFor="let error of validationErrors">
-                {{error}}
-            </li>
-        </ul>
+    <app-text-input [formControl]="$any(registerForm.controls['confirmPassword'])" [label]="'Confirm Password'" [type]="'password'"></app-text-input>
+  
+    <div class="mt-4" *ngIf="validationErrors">
+      <mat-error *ngFor="let error of validationErrors">{{ error }}</mat-error>
     </div>
-
-    <div class="text-center">
-        <button [disabled]="!registerForm.valid" class="btn btn-success me-2" type="submit"> Register</button>
-        <button class="btn btn-default" type="button" (click)="cancel()"> Cancel</button>
+  
+    <div class="text-center mt-4">
+      <button [disabled]="!registerForm.valid" class="btn btn-success me-2" type="submit">Register</button>
+      <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
     </div>
-</form>
-
+  </form>
+  
 <!-- <p>Form value: {{registerForm.value |json}}</p>
 <p>Form value: {{registerForm.status |json}}</p> -->

@@ -108,7 +108,12 @@ export class MembersService {
     return getPaginatedResult<Member[]>(this.baseUrl+'likes',params,this.http);
   }
 
-
+  uploadPhoto(formData: FormData) {
+    return this.http.post(`${this.baseUrl}users/upload-photo`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
+  }
   
 
 }

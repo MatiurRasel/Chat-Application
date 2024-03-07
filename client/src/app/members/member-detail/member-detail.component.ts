@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
-import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Message } from 'src/app/_models/message';
 import { User } from 'src/app/_models/user';
@@ -15,96 +14,82 @@ import { PresenceService } from 'src/app/_services/presence.service';
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css']
 })
-export class MemberDetailComponent implements OnInit,OnDestroy {
+export class MemberDetailComponent implements OnInit, OnDestroy {
 
-  @ViewChild('memberTabs',{static: true}) memberTabs?: TabsetComponent;
-  member:Member  = {} as Member;
-  galleryOptions: NgxGalleryOptions[]=[];
-  galleryImages: NgxGalleryImage[] = [];
-  activeTab?: TabDirective;
+  @ViewChild('memberTabs', { static: true }) memberTabs?: MatTabGroup;
+  member: Member = {} as Member;
+  activeTab: MatTab | undefined = undefined;
   messages: Message[] = [];
-  user?:User;
+  user: User | undefined;
+
+  galleryImages: { small: string, medium: string, big: string }[] = [];
+
+  private routeDataSubscription: Subscription | undefined;
+  private routeQueryParamsSubscription: Subscription | undefined;
 
   constructor(private accountService: AccountService,
     private route: ActivatedRoute,
     private messageService: MessageService,
     public presenceService: PresenceService,
-    private router: Router){
-      this.accountService.currentUser$.pipe(take(1)).subscribe({
-        next: user => {
-          if(user) this.user = user;
-        }
-      });
+    private router: Router) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        if (user) this.user = user;
+      }
+    });
 
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-
-    }
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
 
   ngOnInit(): void {
-   this.route.data.subscribe({
-    next: data => this.member = data['member']
-   })
+    this.routeDataSubscription = this.route.data.subscribe({
+      next: data => this.member = data['member']
+    });
 
-   this.route.queryParams.subscribe({
-    next: params => {
-      params['tab'] && this.selectTab(params['tab'])
-    }
-   })
-
-   this.galleryOptions = [
-    {
-      width:'500px',
-      height:'500px',
-      imagePercent:100,
-      thumbnailsColumns:4,
-      imageAnimation:NgxGalleryAnimation.Slide,
-      preview:false
-    }
-   ]
-   this.galleryImages =this.getImages();
+    this.routeQueryParamsSubscription = this.route.queryParams.subscribe({
+      next: params => {
+        params['tab'] && this.selectTab(params['tab']);
+      }
+    });
   }
+
   ngOnDestroy(): void {
     this.messageService.stopHubConnection();
-  }
 
-  getImages() {
-    if(!this.member) return [];
-    const imageUrls = [];
-    for(const photo of this.member.photos){
-      imageUrls.push({
-        small: photo.url,
-        medium: photo.url,
-        big: photo.url
-      })
+    if (this.routeDataSubscription) {
+      this.routeDataSubscription.unsubscribe();
     }
-    return imageUrls;
+
+    if (this.routeQueryParamsSubscription) {
+      this.routeQueryParamsSubscription.unsubscribe();
+    }
   }
 
   selectTab(heading: string) {
-    if(this.memberTabs) {
-      this.memberTabs.tabs.find(x=>x.heading === heading)!.active = true;
+    if (this.memberTabs) {
+      const tabs = this.memberTabs._tabs.toArray();
+      const selectedTab = tabs.find(tab => tab.textLabel === heading);
+      if (selectedTab) {
+        selectedTab.isActive = true;
+      }
     }
   }
 
-  OnTabActivated(data: TabDirective) {
-    this.activeTab = data;
-    if(this.activeTab.heading === 'Messages' && this.user) {
-      this.messageService.createHubConnection(this.user,this.member.userName);
-    }
-    else {
+  OnTabActivated(data: MatTabChangeEvent) {
+    this.activeTab = data.tab;
+    if (this.activeTab.textLabel === 'Messages' && this.user) {
+      this.messageService.createHubConnection(this.user, this.member.userName);
+    } else {
       this.messageService.stopHubConnection();
     }
   }
 
   loadMessages() {
-    if(this.member) {
+    if (this.member) {
       this.messageService.getMessageThread(this.member.userName)
         .subscribe({
           next: messages => this.messages = messages
-          
-        })
+        });
     }
-    //console.log(this.messages)
   }
-
 }

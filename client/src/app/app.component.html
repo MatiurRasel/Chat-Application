@@ -1,7 +1,9 @@
-<ngx-spinner type="timer">
-    <p style="color: white" > Loading... </p>
+<ngx-spinner type="timer" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 sm:top-1/4">
+    <p class="text-white">Loading...</p>
 </ngx-spinner>
-<app-nav></app-nav>
-<div class="container" style="margin-top: 100px;">
-<router-outlet></router-outlet>
+
+<app-nav class="absolute top-0 left-0 right-0 z-50"></app-nav>
+
+<div class="container mx-auto mt-16 sm:mt-32">
+    <router-outlet></router-outlet>
 </div>

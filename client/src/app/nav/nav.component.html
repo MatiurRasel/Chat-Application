@@ -1,55 +1,49 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
-    <div class="container">
-      <a class="navbar-brand"  routerLink="/" routerLinkActive="active">Chat Application</a>
+<nav class="bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 text-white fixed top-0 w-full shadow-md font-poppins">
+  <div class="container mx-auto flex flex-wrap items-center justify-between p-4">
+    <!-- Brand -->
+    <a class="text-lg font-bold" routerLink="/" routerLinkActive="active">Chat Application</a>
 
-
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
-        <ng-container *ngIf="accountService.currentUser$ | async">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/members" 
-            [routerLinkActiveOptions]="{exact:true}"
-             routerLinkActive="active">Matches</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/messages" routerLinkActive="active" >Messages</a>
-          </li>
-          <li *appHasRole="['Admin','Moderator']" class="nav-item">
-            <a class="nav-link" routerLink="/admin" routerLinkActive="active" >Admin</a>
-          </li>
-        </ng-container>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/errors" routerLinkActive="active" >Errors</a>
+    <!-- Navigation Links -->
+    <ul class="flex flex-wrap items-center space-x-4 md:space-x-8">
+      <ng-container *ngIf="accountService.currentUser$ | async">
+        <li>
+          <a routerLink="/members" 
+          [routerLinkActiveOptions]="{exact:true}"
+          routerLinkActive="active">Matches</a>
         </li>
-        </ul>
+        <li>
+          <a routerLink="/lists" routerLinkActive="active">Lists</a>
+        </li>
+        <li>
+          <a routerLink="/messages" routerLinkActive="active">Messages</a>
+        </li>
+        <li *appHasRole="['Admin','Moderator']">
+          <a routerLink="/admin" routerLinkActive="active">Admin</a>
+        </li>
+      </ng-container>
+      <li>
+        <a routerLink="/errors" routerLinkActive="active">Errors</a>
+      </li>
+    </ul>
 
-        <div class="dropdown" 
-        *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-        <img src="{{user.photoUrl || './assets/user.png'}}" alt="user photo">
-            <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{user.knownAs}}</a>
-                <div class="dropdown-menu mt-3" *dropdownMenu>
-                    <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
-                    <a class="dropdown-item"(click)="logout()">Logout</a>
-                </div>
-        </div>
-
-        <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex"(ngSubmit)="login()" autocomplete="off">
-          <input 
-            name="userName"
-            [(ngModel)]="model.userName"
-            class="form-control me-2" 
-            type="text" 
-            placeholder="UserName">
-          <input 
-            name="password"
-            [(ngModel)]="model.password"
-            class="form-control me-2" 
-            type="password" 
-            placeholder="Password">
-          <button class="btn btn-success" type="submit">Login</button>
-        </form>
-
+    <!-- User Dropdown or Login Form -->
+    <div *ngIf="(accountService.currentUser$ | async) as user" class="relative group flex items-center">
+      <img src="{{user.photoUrl || './assets/user.png'}}" alt="user photo" class="w-8 h-8 rounded-full object-cover cursor-pointer">
+      <button class="text-light ms-2 focus:outline-none" aria-haspopup="true" aria-expanded="false" aria-controls="dropdown-menu">Welcome {{user.knownAs}}</button>
+      <div id="dropdown-menu" class="hidden absolute right-0 mt-2 bg-white text-gray-800 rounded shadow-md group-hover:block">
+        <a routerLink="/member/edit" class="block px-4 py-2 hover:bg-gray-200">Edit Profile</a>
+        <a (click)="logout()" class="block px-4 py-2 hover:bg-gray-200">Logout</a>
+      </div>
     </div>
-  </nav>
+
+    <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2"
+      (ngSubmit)="login()" autocomplete="off">
+      <input name="userName" [(ngModel)]="model.userName" class="px-4 py-2 bg-white text-teal-600 placeholder-teal-400 rounded focus:outline-none"
+        type="text" placeholder="Username">
+      <input name="password" [(ngModel)]="model.password" class="px-4 py-2 bg-white text-teal-600 placeholder-teal-400 rounded focus:outline-none"
+        type="password" placeholder="Password">
+      <button class="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 focus:outline-none mt-2 md:mt-0"
+        type="submit">Login</button>
+    </form>
+  </div>
+</nav>

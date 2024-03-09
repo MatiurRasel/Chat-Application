@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -60,7 +60,7 @@ import { LiveTimePipe } from './_pipes/live-time.pipe';
     PhotoManagementComponent,
     RolesModalComponent,
     ConfirmDialogComponent,
-    LiveTimePipe
+    LiveTimePipe,
   ],
   imports: [
     BrowserModule,

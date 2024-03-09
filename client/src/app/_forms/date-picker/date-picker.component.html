@@ -1,17 +1,9 @@
 <div class="mb-3">
-    <input type="text"
-           [class.is-invalid]="control.touched && control.invalid"
-           class="form-control"
-           [formControl]="control"
-           placeholder="{{label}}"
-           matInput  
-           [matDatepicker]="picker">  <!-- Link to the Angular Material datepicker -->
-           
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle> <!-- Angular Material datepicker toggle -->
-    <mat-datepicker #picker></mat-datepicker> <!-- Angular Material datepicker component -->
-  
-    <div *ngIf="control.errors?.['required']" class="invalid-feedback">
-      {{label}} is required
-    </div>
-  </div>
-  
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>{{ label }}</mat-label>
+    <input matInput [class.is-invalid]="control.touched && control.invalid" [formControl]="control" [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="control.errors?.['required']">{{ label }} is required</mat-error>
+  </mat-form-field>
+</div>

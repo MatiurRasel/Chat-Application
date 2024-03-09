@@ -8,16 +8,20 @@ import { map } from 'rxjs/operators';
 export class LiveTimePipe implements PipeTransform, OnDestroy {
   private timerSubscription: Subscription | undefined;
 
-  transform(value: Date): Observable<string> {
+  transform(value: Date | string): Observable<string> {
+    // Convert string to Date if it's not already
+    const dateValue = typeof value === 'string' ? new Date(value) : value;
+
     // Update every second
     this.timerSubscription = interval(1000).pipe(
-      map(() => this.calculateTimeDifference(value))
+      map(() => this.calculateTimeDifference(dateValue))
     ).subscribe();
 
     return new Observable<string>();
   }
 
   calculateTimeDifference(value: Date): string {
+    //debugger
     const now = new Date();
     const seconds = Math.floor((now.getTime() - value.getTime()) / 1000);
 

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { take } from 'rxjs';
-import { HttpEventType } from '@angular/common/http';
 import { Member } from 'src/app/_models/member';
 import { Photo } from 'src/app/_models/photo';
 import { User } from 'src/app/_models/user';
@@ -63,30 +62,30 @@ export class PhotoEditorComponent implements OnInit {
     });
   }
 
-uploadFile(files: File[]): void {
-  if (this.user) {
-    const formData = new FormData();
-    files.forEach(file => formData.append('file', file));
+// uploadFile(files: File[]): void {
+//   if (this.user) {
+//     const formData = new FormData();
+//     files.forEach(file => formData.append('file', file));
 
-    this.memberService.uploadPhoto(formData).subscribe(
-      (event) => {
-        if (event.type === HttpEventType.Response) {
-          console.log('File upload success:', event.body);
-        } else if (event.type === HttpEventType.UploadProgress && event.total) {
-          const percentDone = Math.round((100 * event.loaded) / event.total);
-          console.log(`File upload progress: ${percentDone}%`);
-        }
-      },
-      (error) => {
-        console.error('File upload error:', error);
-      }
-    );
-  }
-}
+//     this.memberService.uploadPhoto(formData).subscribe(
+//       (event) => {
+//         if (event.type === HttpEventType.Response) {
+//           console.log('File upload success:', event.body);
+//         } else if (event.type === HttpEventType.UploadProgress && event.total) {
+//           const percentDone = Math.round((100 * event.loaded) / event.total);
+//           console.log(`File upload progress: ${percentDone}%`);
+//         }
+//       },
+//       (error) => {
+//         console.error('File upload error:', error);
+//       }
+//     );
+//   }
+// }
 
 
-  onFileSelected(event: any): void {
-    // Handle the file selection logic here
-    console.log(event);
-  }
+//   onFileSelected(event: any): void {
+//     // Handle the file selection logic here
+//     console.log(event);
+//   }
 }

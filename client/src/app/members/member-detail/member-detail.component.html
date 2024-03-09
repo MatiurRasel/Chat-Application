@@ -1,63 +1,75 @@
 <div class="flex flex-wrap">
-    <div class="w-full md:w-1/3">
-        <div class="bg-white border rounded-lg shadow-lg p-4 mb-4">
-            <img [src]="member.photoUrl || './assets/user.png'" alt="{{member.knownAs}}"
-                 class="w-full h-64 object-cover object-center mb-4">
-            <div *ngIf="(presenceService.onlineUsers$ | async)?.includes(member.userName)"
-                 class="mb-2 text-green-500">
-                <i class="fa fa-user-circle"></i> Online now
-            </div>
-            <div>
-                <strong>Location:</strong>
-                <p>{{member.city}}, {{member.country}}</p>
-            </div>
-            <div>
-                <strong>Age:</strong>
-                <p>{{member.age}}</p>
-            </div>
-            <div>
-                <strong>Last active:</strong>
-                <p>{{member.lastActive | liveTime}}</p>
-            </div>
-            <div>
-                <strong>Member since:</strong>
-                <p>{{member.created | date: 'dd MMM yyyy'}}</p>
-            </div>
-            <div class="mt-4">
-                <div class="flex">
-                    <button class="bg-blue-500 text-white px-4 py-2 mr-2">Like</button>
-                    <button (click)="selectTab('Messages')"
-                            class="bg-green-500 text-white px-4 py-2">Messages
-                    </button>
-                </div>
-            </div>
+    <div class="w-full md:w-1/3 lg:w-1/3 xl:w-1/4">
+      <div class="bg-white border rounded-lg shadow-lg p-4 mb-4">
+        <img [src]="member.photoUrl || './assets/user.png'" alt="{{member.knownAs}}"
+          class="w-full h-64 object-cover object-center mb-4">
+        <div *ngIf="(presenceService.onlineUsers$ | async)?.includes(member.userName)" class="mb-2 text-green-500">
+          <mat-icon class="me-2">circle</mat-icon> Online now
         </div>
+        <div class="mb-2">
+          <strong>Location:</strong>
+          <p>{{member.city}}, {{member.country}}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Age:</strong>
+          <p>{{member.age}}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Last active:</strong>
+          <p>{{member.lastActive | liveTime}}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Member since:</strong>
+          <p>{{member.created | date: 'dd MMM yyyy'}}</p>
+        </div>
+        <div class="mt-4 flex justify-center">
+          <div class="flex items-center space-x-2">
+            <button mat-raised-button color="primary" class="flex items-center">
+              <mat-icon class="me-1">thumb_up</mat-icon> Like
+            </button>
+            <button mat-raised-button color="accent" (click)="selectTab('Messages')">
+                <mat-icon class="me-1">message</mat-icon> Messages</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="w-full md:w-2/3">
-        <mat-tab-group class="member-tabset" #memberTabs (selectedTabChange)="OnTabActivated($event)">            <mat-tab label="About {{member.knownAs}}">
-                <h4>Description</h4>
-                <p>{{member.introduction}}</p>
-                <h4>Looking for</h4>
-                <p>{{member.lookingFor}}</p>
-            </mat-tab>
-
-            <mat-tab label="Interests">
-                <h4>Interests</h4>
-                <p>{{member.interests}}</p>
-            </mat-tab>
-
-            <mat-tab label="Photos">
-                <!-- Your photo content goes here -->
-                <div class="flex flex-wrap">
-                    <div *ngFor="let image of galleryImages" class="w-full md:w-1/3 p-2">
-                        <img [src]="image.small" alt="Photo" class="w-full h-64 object-cover object-center mb-4">
-                    </div>
-                </div>
-            </mat-tab>
-
-            <mat-tab label="Messages">
+    <div class="w-full md:w-2/3 lg:w-2/3 xl:w-3/4 p-4">
+      <mat-tab-group class="member-tabset" #memberTabs (selectedTabChange)="OnTabActivated($event)">
+        <mat-tab label="About {{member.knownAs}}">
+            <div class="p-4">
+                <h4 class="text-2xl font-bold mb-4">Description</h4>
+                <p class="text-gray-700">{{member.introduction}}</p>
+                <h4 class="text-2xl font-bold mt-6 mb-4">Looking for</h4>
+                <p class="text-gray-700">{{member.lookingFor}}</p>
+            </div>
+         
+        </mat-tab>
+  
+        <mat-tab label="Interests">
+            <div class="p-4">
+                <h4 class="text-2xl font-bold mb-4">Interests</h4>
+                <p class="text-gray-700">{{member.interests}}</p>
+            </div>
+          
+        </mat-tab>
+  
+        <mat-tab label="Photos">
+            <div class="p-4">
+          <div class="flex flex-wrap">
+            <div *ngFor="let image of galleryImages" class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
+              <img [src]="image.small" alt="Photo" class="w-full h-64 object-cover object-center mb-4">
+            </div>
+          </div>
+        </div>
+        </mat-tab>
+  
+        <mat-tab label="Messages">
+            <div class="p-4">
                 <app-member-messages [userName]="member.userName"></app-member-messages>
-            </mat-tab>
-        </mat-tab-group>
+
+            </div>
+        </mat-tab>
+      </mat-tab-group>
     </div>
-</div>
+  </div>
+  

@@ -12,9 +12,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatFileUploadModule } from 'mat-file-upload';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 @NgModule({
   declarations: [],
   imports: [
@@ -31,9 +34,13 @@ import { MatIconModule } from '@angular/material/icon';
     MatSnackBarModule, 
     MatCheckboxModule,
     MatRadioModule,
-    MatFileUploadModule,
+    // MatFileUploadModule,
     NgxDropzoneModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatButtonToggleModule
   ],
   exports:[
     MatMenuModule,
@@ -48,9 +55,13 @@ import { MatIconModule } from '@angular/material/icon';
     MatSnackBarModule,
     MatCheckboxModule,
     MatRadioModule,
-    MatFileUploadModule,
+    // MatFileUploadModule,
     NgxDropzoneModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatButtonToggleModule
   ],
   providers: [
     // ... other providers

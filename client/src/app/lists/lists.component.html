@@ -1,39 +1,29 @@
 <div class="text-center mt-3">
-    <h2> {{predicate === 'liked' ? 'Members I like' : 'Members who like me'}}</h2>
-</div>
-
-<div class="container mt-3">
-    <div class="d-flex">
-        <div class="btn-group" name="predicate">
-            <button class="btn btn-primary" btnRadio="liked"
-            [(ngModel)]="predicate"
-            (click)="loadLikes()">Members I Like</button>
-
-            <button class="btn btn-primary" btnRadio="likeBy"
-            [(ngModel)]="predicate"
-            (click)="loadLikes()">Members who like me</button>
-        </div>
+    <h2 class="mat-h2">{{ predicate === 'liked' ? 'Members I Like' : 'Members Who Like Me' }}</h2>
+  </div>
+  
+  <div class="container mt-3">
+    <div class="d-flex justify-content-center">
+      <mat-button-toggle-group name="predicate" [(ngModel)]="predicate" (change)="loadLikes()">
+        <mat-button-toggle value="liked">Members I Like</mat-button-toggle>
+        <mat-button-toggle value="likeBy">Members Who Like Me</mat-button-toggle>
+      </mat-button-toggle-group>
     </div>
-
+  
     <div class="row mt-3">
-        <div class="col-2" *ngFor="let member of members">
-            <app-member-card [member]="member"></app-member-card>
-        </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" *ngFor="let member of members">
+        <app-member-card [member]="member"></app-member-card>
+      </div>
     </div>
-</div>
-
-<div class="d-flex justify-content-center" *ngIf="pagination">
-    <!-- <pagination
-    [boundaryLinks]="true"
-    [totalItems]="pagination.totalItems"
-    [itemsPerPage]="pagination.itemsPerPage"
-    [maxSize]="10"
-    [(ngModel)]="pagination.currentPage"
-    (pageChanged)="pageChanged($event)"
-    previousText="&lsaquo;"
-    nextText="&rsaquo;"
-    firstText="&laquo;"
-    lastText="&raquo;">
-
-    </pagination> -->
-</div>
+  </div>
+  
+  <div class="d-flex justify-content-center mt-3" *ngIf="pagination">
+    <mat-paginator
+      [length]="pagination.totalItems || 0"
+      [pageSize]="pagination.itemsPerPage || 0"
+      [pageIndex]="pagination.currentPage || 1"
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      (page)="pageChanged($event)"
+    ></mat-paginator>
+  </div>
+  

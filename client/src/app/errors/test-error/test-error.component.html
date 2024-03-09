@@ -1,18 +1,47 @@
-
-<ng-container>
-    <button class="btn btn-outline-primary me-3" (click)="get500Error()"> Test 500 Error</button>
-    <button class="btn btn-outline-primary me-3" (click)="get400Error()"> Test 400 Error</button>
-    <button class="btn btn-outline-primary me-3" (click)="get401Error()"> Test 401 Error</button>
-    <button class="btn btn-outline-primary me-3" (click)="get404Error()"> Test 404 Error</button>
-    <button class="btn btn-outline-primary me-3" (click)="get400ValidationError()">
-         Test 400 Validation Error</button>
-
-
-    <div class="row mt-5" *ngIf="validationErrors.length > 0">
-       <ul class="text-danger">
-        <li *ngFor="let error of validationErrors">
-            {{error}}
-        </li>
-       </ul>
+<!-- <div class="container mx-auto mt-10 text-center">
+    <div class="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-3">
+        <button mat-button color="primary" class="mb-3 sm:mb-0" (click)="get500error()">test 500 error</button>
+        <button mat-button color="primary" class="mb-3 sm:mb-0" (click)="get400error()">test 400 error</button>
+        <button mat-button color="primary" class="mb-3 sm:mb-0" (click)="get401error()">test 401 error</button>
+        <button mat-button color="primary" class="mb-3 sm:mb-0" (click)="get404error()">test 404 error</button>
+        <button mat-button color="primary" class="mb-3 sm:mb-0" (click)="get400validationerror()">test 400 validation error</button>
     </div>
-</ng-container>
+
+    <div class="row mt-5" *ngif="validationerrors.length > 0">
+        <ul class="text-red-500">
+            <li *ngfor="let error of validationerrors">{{ error }}</li>
+        </ul>
+    </div>
+</div> -->
+
+
+
+<div class="container mx-auto mt-10 text-center">
+    <h1 class="text-4xl font-bold mb-5">Error Testing</h1>
+
+    <div class="flex flex-wrap justify-center space-y-3 md:space-x-3">
+        <button mat-raised-button color="warn" class="mb-3 md:mb-0" (click)="get404Error()">
+            <mat-icon>error_outline</mat-icon> Test 404 Error
+        </button>
+        <button mat-raised-button color="warn" class="mb-3 md:mb-0" (click)="get400Error()">
+            <mat-icon>error_outline</mat-icon> Test 400 Error
+        </button>
+        <button mat-raised-button color="warn" class="mb-3 md:mb-0" (click)="get500Error()">
+            <mat-icon>error_outline</mat-icon> Test 500 Error
+        </button>
+        <button mat-raised-button color="warn" class="mb-3 md:mb-0" (click)="get401Error()">
+            <mat-icon>error_outline</mat-icon> Test 401 Error
+        </button>
+        <button mat-raised-button color="warn" class="mb-3 md:mb-0" (click)="get400ValidationError()">
+            <mat-icon>error_outline</mat-icon> Test 400 Validation Error
+        </button>
+    </div>
+
+    <div class="mt-5" *ngIf="validationErrors.length > 0">
+        <ul class="text-danger">
+            <li *ngFor="let error of validationErrors">{{ error }}</li>
+        </ul>
+    </div>
+</div>
+
+

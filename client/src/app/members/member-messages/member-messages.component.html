@@ -1,62 +1,57 @@
-<div class="card">
-    <div class="card-body"
-        #scrollMe
-        style="overflow: scroll; height: 580px;"
-        [scrollTop]="scrollMe.scrollHeight">
-        <div *ngIf="(messageService.messageThread$ | async)?.length === 0">
-            No messages yet ... say hi by using the message box below
-        </div>
-
-        <ul 
-        *ngIf="(messageService.messageThread$ | async)!.length > 0" class="chat">
-            <li *ngFor="let message of (messageService.messageThread$ | async)">
-                <div>
-                    <span class="chat-img float-end">
-                        <img class="rounded-circle"
-                             src="{{message.senderPhotoUrl || './assets/user.png'}}" 
-                             alt="image of user">
+<mat-card class="w-full h-screen">
+    <mat-card-content class="overflow-y-scroll h-full" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+      <ng-container *ngIf="(messageService.messageThread$ | async)?.length === 0; else messagesExist">
+        <div class="text-center text-gray-500 mt-8">No messages yet... Say hi by using the message box below.</div>
+      </ng-container>
+      <ng-template #messagesExist>
+        <ul *ngIf="(messageService.messageThread$ | async)!.length > 0" class="chat space-y-4">
+          <li *ngFor="let message of (messageService.messageThread$ | async)">
+            <div class="flex items-start">
+              <img class="rounded-full h-8 w-8" [src]="message.senderPhotoUrl || './assets/user.png'" alt="image of user">
+              <div class="ml-4">
+                <div class="header">
+                  <small class="text-sm text-muted">
+                    <span class="fa fa-clock-o">{{ message.messageSent | liveTime }}</span>
+                    <span class="text-danger" *ngIf="!message.dateRead && message.senderUserName !== userName">
+                      (unread)
                     </span>
-                    <div class="chat-body">
-                        <div class="header">
-                            <small class="text-muted">
-                                <span class="fa fa-clock-o">
-                                    {{message.messageSent | liveTime }}
-                                </span>
-                                <span class="text-danger" 
-                                    *ngIf="!message.dateRead 
-                                    && message.senderUserName !== userName">(unread)</span>
-                                <span class="text-success" 
-                                    *ngIf="message.dateRead 
-                                    && message.senderUserName !== userName">
-                                    (read 
-                                    {{message.dateRead | liveTime }}
-                                    )</span>
-                            </small>
-                        </div>
-                        <p>{{message.content}}</p>
-                    </div>
+                    <span class="text-success" *ngIf="message.dateRead && message.senderUserName !== userName">
+                      (read {{ message.dateRead | liveTime }})
+                    </span>
+                  </small>
                 </div>
-            </li>
-        </ul>
-    </div>
-    <div class="card-footer">
-        <form #messageForm = "ngForm" (ngSubmit)="sendMessage()" autocomplete="off">
-            <div class="input-group">
-                <input 
-                name="messageContent" required
-                [(ngModel)]="messageContent"
-                type="text" 
-                class="form-control input-sm"
-                placeholder="Send a  private message">
-                <div class="input-group-append">
-                    <button [disabled]="!messageForm.valid || loading" 
-                    class="btn btn-primary" 
-                    type="submit">
-                    Send 
-                    <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
-                </button>
-                </div>
+                <p class="text-sm">{{ message.content }}</p>
+              </div>
             </div>
+          </li>
+        </ul>
+      </ng-template>
+    </mat-card-content>
+  
+    <mat-card-actions class="flex items-center space-x-2">
+        <form #messageForm="ngForm" (ngSubmit)="sendMessage()" autocomplete="off" class="flex-grow">
+          <mat-form-field appearance="fill" class="flex-grow">
+            <mat-label>Send a private message</mat-label>
+            <input
+              matInput
+              name="messageContent" required
+              [(ngModel)]="messageContent"
+              type="text"
+              placeholder="Type your message"
+            />
+          </mat-form-field>
         </form>
-    </div>
-</div>
+      
+        <button
+          mat-raised-button
+          [disabled]="!messageForm.valid || loading"
+          class="ml-2"
+          type="submit"
+        >
+          <mat-icon *ngIf="!loading">send</mat-icon>
+          <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+        </button>
+      </mat-card-actions>
+      
+  </mat-card>
+  

@@ -1,77 +1,74 @@
 <div class="text-center mt-3">
-    <h2>Your matches - {{pagination?.totalItems}} found</h2>
-</div>
-<div class="container mt-3" *ngIf="userParams">
-    <form #form="ngForm" class="d-flex mb-3" (ngSubmit)="loadMembers()" autocomplete="off">
-        <div class="d-flex mx-2">
+    <h2 class="mat-h2">Your matches - {{pagination?.totalItems}} found</h2>
+  </div>
+  
+  <ng-container class="container mt-3" *ngIf="userParams">
+    <mat-card class="mat-elevation-z2 mt-3">
+      <form #form="ngForm" class="flex flex-wrap p-6" (ngSubmit)="loadMembers()" autocomplete="off">
+        <div class="flex items-center mb-3">
+          <mat-form-field class="w-full">
             <label class="col-form-label">Age from: </label>
-            <input type="number" class="form-control ms-1" style="width: 70px;"
-            name="minAge" [(ngModel)]="userParams.minAge">
+            <input matInput type="number" name="minAge" [(ngModel)]="userParams.minAge">
+          </mat-form-field>
         </div>
-        <div class="d-flex mx-2">
+  
+        <div class="flex items-center mb-3">
+          <mat-form-field class="w-full">
             <label class="col-form-label">Age to: </label>
-            <input type="number" class="form-control ms-1" style="width: 70px;"
-            name="maxAge" [(ngModel)]="userParams.maxAge">
+            <input matInput type="number" name="maxAge" [(ngModel)]="userParams.maxAge">
+          </mat-form-field>
         </div>
-        <div class="d-flex px-2">
+  
+        <div class="flex items-center mb-3">
+          <mat-form-field class="w-full">
             <label class="col-form-label me-2">Show: </label>
-            <select name="gender" style="width: 150px;" class="form-select ms-1"
-            [(ngModel)]="userParams.gender">
-            <option *ngFor="let gender of genderList" [value]="gender.value">
-                {{gender.display}}
-            </option>
-            </select>
+            <mat-select name="gender" [(ngModel)]="userParams.gender">
+              <mat-option *ngFor="let gender of genderList" [value]="gender.value">{{ gender.display }}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-
-        <button class="btn btn-primary ms-1" type="submit">Apply Filters</button>
-        <button (click)="resetFilters()" class="btn btn-info ms-1" type="submit">Reset Filters</button>
-    
-        <div class="col">
-            <div class="btn-group float-end">
-                <button 
-                type="button"
-                class="btn btn-primary"
-                name="orderBy" 
-                [(ngModel)]="userParams.orderBy"
-                btnRadio="lastActive"
-                (click)="loadMembers()">Last Active</button>
-
-                <button 
-                type="button"
-                class="btn btn-primary"
-                name="orderBy" 
-                [(ngModel)]="userParams.orderBy"
-                btnRadio="created"
-                (click)="loadMembers()">Newest Members</button>
-            </div>
+  
+        <div class="flex items-center mr-auto">
+          <div class="btn-group">
+            <button mat-raised-button color="primary" type="submit">
+              <mat-icon class="me-1">filter_alt</mat-icon>
+              Apply Filters
+            </button>
+            <button mat-raised-button color="warn" (click)="resetFilters()" type="button">
+              <mat-icon class="me-1">clear</mat-icon>
+              Reset Filters
+            </button>
+          </div>
         </div>
-    
-    
-    
-    </form>
-
-</div>
-
-
-<div class="row">
-    <div class="col-2" *ngFor="let member of members ">
-        <app-member-card [member]="member"></app-member-card>
-    </div>
-</div>
-
-
-<div class="d-flex justify-content-center" *ngIf="pagination">
-    <!-- <pagination
-    [boundaryLinks]="true"
-    [totalItems]="pagination.totalItems"
-    [itemsPerPage]="pagination.itemsPerPage"
-    [maxSize]="10"
-    [(ngModel)]="pagination.currentPage"
-    (pageChanged)="pageChanged($event)"
-    previousText="&lsaquo;"
-    nextText="&rsaquo;"
-    firstText="&laquo;"
-    lastText="&raquo;">
-
-    </pagination> -->
-</div>
+  
+        <div class="flex items-center ml-auto">
+          <div class="btn-group">
+            <button mat-raised-button color="primary" name="orderBy" [(ngModel)]="userParams.orderBy" btnRadio="lastActive" (click)="loadMembers()">
+              <mat-icon class="me-1">schedule</mat-icon>
+              Last Active
+            </button>
+  
+            <button mat-raised-button color="primary" name="orderBy" [(ngModel)]="userParams.orderBy" btnRadio="created" (click)="loadMembers()">
+              <mat-icon class="me-1">fiber_new</mat-icon>
+              Newest Members
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+  </ng-container>
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-3">
+    <app-member-card *ngFor="let member of members" [member]="member"></app-member-card>
+  </div>
+  
+  <div class="flex justify-center mt-3" *ngIf="pagination">
+    <mat-paginator
+      [length]="pagination.totalItems || 0"
+      [pageSize]="pagination.itemsPerPage || 0"
+      [pageIndex]="pagination.currentPage || 1"
+      [pageSizeOptions]="[5, 10, 25, 50]"
+      (page)="pageChanged($event)"
+    ></mat-paginator>
+  </div>
+  

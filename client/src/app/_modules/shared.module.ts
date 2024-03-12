@@ -18,6 +18,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 @NgModule({
   declarations: [],
   imports: [
@@ -40,7 +42,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatCardModule,
     MatSelectModule,
     MatFormFieldModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTableModule,
+    MatSortModule
   ],
   exports:[
     MatMenuModule,
@@ -61,7 +65,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatCardModule,
     MatSelectModule,
     MatFormFieldModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [
     // ... other providers

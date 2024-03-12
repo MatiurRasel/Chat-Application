@@ -1,5 +1,7 @@
-<nav class="bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 text-white fixed top-0 w-full shadow-md font-poppins">
-  <div class="container mx-auto flex flex-wrap items-center justify-between p-4">
+<nav class="bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600
+ text-white fixed top-0 w-full shadow-md font-poppins">
+  <div class="container mx-auto flex flex-wrap 
+  items-center justify-between p-4">
     <!-- Brand -->
     <a class="text-lg font-bold" routerLink="/" routerLinkActive="active">Chat Application</a>
 
@@ -7,34 +9,53 @@
     <ul class="flex flex-wrap items-center space-x-4 md:space-x-8">
       <ng-container *ngIf="accountService.currentUser$ | async">
         <li>
-          <a routerLink="/members" 
+          <a mat-button routerLink="/members" 
           [routerLinkActiveOptions]="{exact:true}"
           routerLinkActive="active">Matches</a>
         </li>
         <li>
-          <a routerLink="/lists" routerLinkActive="active">Lists</a>
+          <a mat-button routerLink="/lists" routerLinkActive="active">Lists</a>
         </li>
         <li>
-          <a routerLink="/messages" routerLinkActive="active">Messages</a>
+          <a mat-button routerLink="/messages" routerLinkActive="active">Messages</a>
         </li>
         <li *appHasRole="['Admin','Moderator']">
-          <a routerLink="/admin" routerLinkActive="active">Admin</a>
+          <a mat-button routerLink="/admin" routerLinkActive="active">Admin</a>
         </li>
       </ng-container>
       <li>
-        <a routerLink="/errors" routerLinkActive="active">Errors</a>
+        <a mat-button routerLink="/errors" routerLinkActive="active">Errors</a>
       </li>
     </ul>
 
     <!-- User Dropdown or Login Form -->
-    <div *ngIf="(accountService.currentUser$ | async) as user" class="relative group flex items-center">
-      <img src="{{user.photoUrl || './assets/user.png'}}" alt="user photo" class="w-8 h-8 rounded-full object-cover cursor-pointer">
-      <button class="text-light ms-2 focus:outline-none" aria-haspopup="true" aria-expanded="false" aria-controls="dropdown-menu">Welcome {{user.knownAs}}</button>
-      <div id="dropdown-menu" class="hidden absolute right-0 mt-2 bg-white text-gray-800 rounded shadow-md group-hover:block">
-        <a routerLink="/member/edit" class="block px-4 py-2 hover:bg-gray-200">Edit Profile</a>
-        <a (click)="logout()" class="block px-4 py-2 hover:bg-gray-200">Logout</a>
+    <div *ngIf="(accountService.currentUser$ | async) as user" 
+    class="relative group flex items-center">
+      <div class="flex items-center">
+        <span class="text-white-500 text-lg font-semibold mr-4">{{ 'Welcome ' + user.knownAs }}</span>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-haspopup="true" aria-expanded="false" class="p-2 focus:outline-none">
+          <div class="flex items-center">
+            <img src="{{ user.photoUrl || './assets/user.png' }}" alt="user photo" class="w-16 h-16 rounded-full object-cover cursor-pointer border-2 border-teal-500">
+            <mat-icon class="ml-2 text-teal-500">arrow_drop_down</mat-icon>
+          </div>
+        </button>
       </div>
+      
+      <mat-menu #userMenu="matMenu" class="bg-white text-gray-800 rounded shadow-md border-t-4 border-teal-500">
+        <button mat-menu-item class="py-2 px-4 hover:bg-teal-100 transition duration-300 ease-in-out" routerLink="/member/edit">
+          <span class="flex items-center">
+            <i class="material-icons mr-2 text-teal-500">edit</i> Edit Profile
+          </span>
+        </button>
+        <button mat-menu-item class="py-2 px-4 hover:bg-teal-100 transition duration-300 ease-in-out" (click)="logout()">
+          <span class="flex items-center">
+            <i class="material-icons mr-2 text-teal-500">logout</i> Logout
+          </span>
+        </button>
+      </mat-menu>
+      
     </div>
+    
 
     <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2"
       (ngSubmit)="login()" autocomplete="off">

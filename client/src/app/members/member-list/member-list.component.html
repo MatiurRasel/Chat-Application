@@ -43,17 +43,18 @@
   
         <div class="flex items-center ml-auto">
           <div class="btn-group">
-            <button mat-raised-button color="primary" name="orderBy" [(ngModel)]="userParams.orderBy" btnRadio="lastActive" (click)="loadMembers()">
+            <button mat-raised-button color="primary" name="orderBy" [value]="'lastActive'" (click)="loadMembers('lastActive')">
               <mat-icon class="me-1">schedule</mat-icon>
               Last Active
             </button>
-  
-            <button mat-raised-button color="primary" name="orderBy" [(ngModel)]="userParams.orderBy" btnRadio="created" (click)="loadMembers()">
+        
+            <button mat-raised-button color="primary" name="orderBy" [value]="'created'" (click)="loadMembers('created')">
               <mat-icon class="me-1">fiber_new</mat-icon>
               Newest Members
             </button>
           </div>
         </div>
+        
       </form>
     </mat-card>
   </ng-container>

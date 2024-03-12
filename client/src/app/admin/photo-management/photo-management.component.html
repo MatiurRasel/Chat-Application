@@ -1,12 +1,18 @@
-<div class='row'>
-    <div class='col-sm-2' *ngFor='let photo of photos'> 
-        <h4>{{photo.userName}}</h4>
-        
-        <img src='{{photo.url}}' class='img-thumbnail p-1' alt='{{photo.userName}}'>
-        
-        <div class='text-center'>
-            <button class='btn btn-sm btn-success me-1' (click)='approvePhoto(photo.id)'>Approve</button>
-            <button class='btn btn-sm btn- danger' (click)='rejectPhoto(photo.id)'>Reject</button>
-        </div> 
+<!-- photo-management.component.html -->
+<div class="mat-elevation-z8 flex flex-wrap justify-around">
+    <div *ngFor="let photo of photos" class="flex flex-col items-center mb-4 p-4 bg-white rounded-md shadow-md">
+      <h4 class="text-center">{{photo.userName}}</h4>
+  
+      <img [src]="photo.url" alt="{{photo.userName}}" class="img-thumbnail mb-2">
+  
+      <div class="flex justify-center space-x-2">
+        <button mat-button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded" (click)="approvePhoto(photo.id)">
+          Approve
+        </button>
+        <button mat-button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded" (click)="rejectPhoto(photo.id)">
+          Reject
+        </button>
+      </div>
     </div>
-</div>
+  </div>
+  

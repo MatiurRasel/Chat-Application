@@ -40,22 +40,23 @@
             </button>
           </div>
         </div>
-  
+
         <div class="flex items-center ml-auto">
           <div class="btn-group">
-            <button mat-raised-button color="primary" name="orderBy" [value]="'lastActive'" (click)="loadMembers('lastActive')">
+            <button type="button" mat-raised-button color="primary" name="orderBy" [value]="'lastActive'" (click)="loadMembers('lastActive')">
               <mat-icon class="me-1">schedule</mat-icon>
               Last Active
             </button>
         
-            <button mat-raised-button color="primary" name="orderBy" [value]="'created'" (click)="loadMembers('created')">
+            <button  type="button" mat-raised-button color="primary" name="orderBy" [value]="'created'" (click)="loadMembers('created')">
               <mat-icon class="me-1">fiber_new</mat-icon>
               Newest Members
             </button>
           </div>
         </div>
-        
+
       </form>
+      
     </mat-card>
   </ng-container>
   
@@ -64,12 +65,22 @@
   </div>
   
   <div class="flex justify-center mt-3" *ngIf="pagination">
-    <mat-paginator
+    <!-- <mat-paginator
       [length]="pagination.totalItems || 0"
       [pageSize]="pagination.itemsPerPage || 0"
       [pageIndex]="pagination.currentPage || 1"
       [pageSizeOptions]="[5, 10, 25, 50]"
       (page)="pageChanged($event)"
-    ></mat-paginator>
+    ></mat-paginator> -->
+
+    <mat-paginator
+    [length]="pagination.totalItems || 0"
+  [pageSize]="pagination.itemsPerPage || 0"
+  [pageIndex]="(pagination.currentPage || 1) - 1"
+  [pageSizeOptions]="[4, 8, 16, 32 , 48 , 60]"
+  (page)="pageChanged($event)"
+>
+</mat-paginator>
+
   </div>
   

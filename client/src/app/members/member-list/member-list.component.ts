@@ -35,7 +35,7 @@ export class MemberListComponent implements OnInit {
   }
 
   loadMembers(orderBy: string = 'lastActive') {
-    console.log('Entering loadMembers. Clicked orderBy:', orderBy);
+    //console.log('Entering loadMembers. Clicked orderBy:', orderBy);
   
     if (!this.userParams) {
       this.userParams = this.memberService.getUserParams();
@@ -54,7 +54,7 @@ export class MemberListComponent implements OnInit {
         }
       });
     }
-    console.log('Exiting loadMembers.');
+    //console.log('Exiting loadMembers.');
   }
   
 

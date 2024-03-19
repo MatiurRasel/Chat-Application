@@ -35,7 +35,7 @@ export class MemberListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.busyService.setSpinnerRef(this.spinner);
+    
     this.loadMembers();
   }
 

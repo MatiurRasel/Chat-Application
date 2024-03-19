@@ -1,27 +1,31 @@
-import { Pipe, PipeTransform, OnDestroy } from '@angular/core';
-import { Observable, Subscription, interval } from 'rxjs';
+import { Pipe, PipeTransform } from '@angular/core';
+import { Observable, interval } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Pipe({
   name: 'liveTime'
 })
-export class LiveTimePipe implements PipeTransform, OnDestroy {
-  private timerSubscription: Subscription | undefined;
+export class LiveTimePipe implements PipeTransform {
 
   transform(value: Date | string): Observable<string> {
-    // Convert string to Date if it's not already
     const dateValue = typeof value === 'string' ? new Date(value) : value;
-
-    // Update every second
-    this.timerSubscription = interval(1000).pipe(
-      map(() => this.calculateTimeDifference(dateValue))
-    ).subscribe();
-
-    return new Observable<string>();
+debugger
+    return interval(1000).pipe(
+      map(() => {
+        if (typeof dateValue === 'string') {
+          // Convert string to date
+          const date = new Date(dateValue);
+          return this.calculateTimeDifference(date).toString(); // Convert to string
+        } else {
+          // Value is already a Date object
+          return this.calculateTimeDifference(dateValue);
+        }
+      })
+    );
   }
 
   calculateTimeDifference(value: Date): string {
-    //debugger
+    debugger
     const now = new Date();
     const seconds = Math.floor((now.getTime() - value.getTime()) / 1000);
 
@@ -35,12 +39,6 @@ export class LiveTimePipe implements PipeTransform, OnDestroy {
       return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
     } else {
       return value.toLocaleDateString();
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.timerSubscription) {
-      this.timerSubscription.unsubscribe();
     }
   }
 }

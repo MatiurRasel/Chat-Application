@@ -20,6 +20,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -27,6 +29,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatMenuModule,
     MatTabsModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
@@ -50,6 +53,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatMenuModule,
     MatTabsModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,

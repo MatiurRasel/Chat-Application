@@ -1,36 +1,30 @@
 import { Injectable } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BusyService {
 
-  busyRequestCount = 0;
-  private spinnerRef!: MatProgressSpinner; // Using ! to indicate it will be initialized in constructor
+  private busyRequestCount = 0;
+  private spinnerVisibleSubject = new BehaviorSubject<boolean>(false);
+  spinnerVisible$ = this.spinnerVisibleSubject.asObservable();
 
   constructor() { }
 
-  // Method to set MatProgressSpinner reference
-  setSpinnerRef(spinner: MatProgressSpinner) {
-    debugger
-    this.spinnerRef = spinner;
-  }
-
   busy() {
-    debugger
     this.busyRequestCount++;
-    if (this.spinnerRef) {
-      this.spinnerRef._elementRef.nativeElement.style.display = 'block'; // Show the spinner
+    if (this.busyRequestCount === 1) {
+      this.spinnerVisibleSubject.next(true); // Show spinner
     }
   }
 
   idle() {
-    debugger
     this.busyRequestCount--;
-    if (this.busyRequestCount <= 0 && this.spinnerRef) {
-      this.spinnerRef._elementRef.nativeElement.style.display = 'none'; // Hide the spinner
+    if (this.busyRequestCount <= 0) {
       this.busyRequestCount = 0;
+      this.spinnerVisibleSubject.next(false); // Hide spinner
     }
   }
 }

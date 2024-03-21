@@ -1,44 +1,42 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';
 import { Observable, interval } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 
 @Pipe({
-  name: 'liveTime'
+  name: 'liveTime',
+  pure: false // Make the pipe impure to trigger change detection
 })
 export class LiveTimePipe implements PipeTransform {
+  constructor(private cdr: ChangeDetectorRef) {}
 
-  transform(value: Date | string): Observable<string> {
-    const dateValue = typeof value === 'string' ? new Date(value) : value;
-debugger
-    return interval(1000).pipe(
-      map(() => {
-        if (typeof dateValue === 'string') {
-          // Convert string to date
-          const date = new Date(dateValue);
-          return this.calculateTimeDifference(date).toString(); // Convert to string
-        } else {
-          // Value is already a Date object
-          return this.calculateTimeDifference(dateValue);
-        }
-      })
+  transform(value: any): Observable<string> {
+    return interval(1000).pipe( // Emit a new value every second
+      startWith(0), // Emit the initial value immediately
+      map(() => this.calculateTimeAgo(value)) // Calculate time ago
     );
   }
 
-  calculateTimeDifference(value: Date): string {
-    debugger
-    const now = new Date();
-    const seconds = Math.floor((now.getTime() - value.getTime()) / 1000);
+  calculateTimeAgo(value: any): string {
+    if (!value) return '';
+    const seconds = Math.floor((+new Date() - +new Date(value)) / 1000);
+    if (seconds < 29) return 'Just now';
 
-    if (seconds < 60) {
-      return `${seconds} second${seconds !== 1 ? 's' : ''} ago`;
-    } else if (seconds < 3600) {
-      const minutes = Math.floor(seconds / 60);
-      return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
-    } else if (seconds < 86400) {
-      const hours = Math.floor(seconds / 3600);
-      return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
-    } else {
-      return value.toLocaleDateString();
+    const intervals: { [key: string]: number } = {
+      'year': 31536000,
+      'month': 2592000,
+      'week': 604800,
+      'day': 86400,
+      'hour': 3600,
+      'minute': 60,
+      'second': 1
+    };
+
+    for (const i in intervals) {
+      const counter = Math.floor(seconds / intervals[i]);
+      if (counter > 0) {
+        return counter + ' ' + i + (counter === 1 ? ' ago' : 's ago');
+      }
     }
+    return '';
   }
 }

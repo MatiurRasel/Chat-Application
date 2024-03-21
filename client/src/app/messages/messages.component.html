@@ -65,7 +65,7 @@
                         <strong>{{message.senderUserName | titlecase}}</strong>
                     </div>
                 </td>
-                <td>{{message.messageSent | liveTime}}</td>
+                <td>{{message.messageSent | timeago}}</td>
                 <td>
                     <button
                     (click)="$event.stopPropagation()"
@@ -136,7 +136,7 @@
               <strong>{{ message.senderUserName | titlecase }}</strong>
             </div>
           </td>
-          <td>{{ message.messageSent | liveTime }}</td>
+          <td>{{ message.messageSent | timeago }}</td>
           <td>
             <button mat-icon-button color="warn" (click)="deleteMessage(message.id)">
               <mat-icon>delete</mat-icon>

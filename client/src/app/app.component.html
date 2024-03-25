@@ -1,9 +1,16 @@
-<!-- <mat-progress-spinner
+<mat-progress-bar
+  mode="indeterminate"
+  class="fixed top-0 left-0 right-0"
+  color="primary"
+  [style.display]="(busyService.spinnerVisible$ | async) ? 'block' : 'none'"
+></mat-progress-bar>
+
+<mat-progress-spinner
   mode="indeterminate"
   class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
   color="primary"
-></mat-progress-spinner> -->
-
+  [style.display]="(busyService.spinnerVisible$ | async) ? 'block' : 'none'"
+></mat-progress-spinner>
 
 <app-nav class="absolute top-0 left-0 right-0 z-50"></app-nav>
 

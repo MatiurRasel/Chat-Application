@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Observable, take } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Pagination } from 'src/app/_models/pagination';
 import { User } from 'src/app/_models/user';
 import { UserParams } from 'src/app/_models/userParams';
 import { AccountService } from 'src/app/_services/account.service';
+import { BusyService } from 'src/app/_services/busy.service';
 import { MembersService } from 'src/app/_services/members.service';
 
 @Component({
@@ -14,6 +16,8 @@ import { MembersService } from 'src/app/_services/members.service';
 })
 export class MemberListComponent implements OnInit {
   // members$: Observable<Member[]> | undefined;
+  @ViewChild('spinner') spinner!: MatProgressSpinner;
+
   members: Member[] = [];
   pagination: Pagination | undefined;
   userParams: UserParams  | undefined;
@@ -26,17 +30,16 @@ export class MemberListComponent implements OnInit {
     }
   ]
 
-  constructor(private memberService: MembersService) {
+  constructor(private memberService: MembersService,private busyService: BusyService) {
       this.userParams = this.memberService.getUserParams();
   }
 
   ngOnInit(): void {
+    
     this.loadMembers();
   }
 
   loadMembers(orderBy: string = 'lastActive') {
-    //console.log('Entering loadMembers. Clicked orderBy:', orderBy);
-  
     if (!this.userParams) {
       this.userParams = this.memberService.getUserParams();
     }

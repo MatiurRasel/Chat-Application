@@ -20,6 +20,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { TimeagoModule } from "ngx-timeago";
+
 @NgModule({
   declarations: [],
   imports: [
@@ -27,6 +30,7 @@ import { MatSortModule } from '@angular/material/sort';
     MatMenuModule,
     MatTabsModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
@@ -44,12 +48,14 @@ import { MatSortModule } from '@angular/material/sort';
     MatFormFieldModule,
     MatButtonToggleModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    TimeagoModule.forRoot()
   ],
   exports:[
     MatMenuModule,
     MatTabsModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
@@ -67,7 +73,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatFormFieldModule,
     MatButtonToggleModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    TimeagoModule
   ],
   providers: [
     // ... other providers

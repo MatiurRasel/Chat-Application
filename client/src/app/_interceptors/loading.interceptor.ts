@@ -3,11 +3,12 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, delay, finalize, identity } from 'rxjs';
+import { Observable,throwError  } from 'rxjs';
+import { catchError,finalize } from 'rxjs/operators';
 import { BusyService } from '../_services/busy.service';
-import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
@@ -15,11 +16,13 @@ export class LoadingInterceptor implements HttpInterceptor {
   constructor(private busyService: BusyService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.busyService.setBusy();
+    this.busyService.busy();
     return next.handle(request).pipe(
-      (environment.production ? identity : delay(1000)),
+      catchError((error: any) => {
+        return throwError(error); // Rethrow the error
+      }),
       finalize(() => {
-        this.busyService.idle()
+        this.busyService.idle();
       })
     );
   }

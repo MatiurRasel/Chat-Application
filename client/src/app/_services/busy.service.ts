@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,20 +8,23 @@ import { Subject } from 'rxjs';
 export class BusyService {
 
   private busyRequestCount = 0;
-  public busy: Subject<boolean> = new Subject<boolean>();
+  private spinnerVisibleSubject = new BehaviorSubject<boolean>(false);
+  spinnerVisible$ = this.spinnerVisibleSubject.asObservable();
 
   constructor() { }
 
-  setBusy() {
+  busy() {
     this.busyRequestCount++;
-    this.busy.next(true);
+    if (this.busyRequestCount === 1) {
+      this.spinnerVisibleSubject.next(true); // Show spinner
+    }
   }
 
   idle() {
     this.busyRequestCount--;
     if (this.busyRequestCount <= 0) {
       this.busyRequestCount = 0;
-      this.busy.next(false);
+      this.spinnerVisibleSubject.next(false); // Hide spinner
     }
   }
 }
